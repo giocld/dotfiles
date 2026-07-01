@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/cortexkit/opencode-magic-context/master/assets/magic-context.schema.json",
+  "historian": {
+    "model": "opencode-go/glm-5"
+  },
+  "dreamer": {
+    "enabled": true,
+    "model": "opencode-go/glm-5"
+  },
+  "sidekick": {
+    "enabled": true,
+    "model": "github-copilot/gemini-3-flash-preview"
+  }
+}

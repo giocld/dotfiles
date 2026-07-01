@@ -1,0 +1,19 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "superpowers@git+https://github.com/obra/superpowers.git#v5.0.7",
+    "@cortexkit/opencode-magic-context@latest"
+  ],
+  "compaction": {
+    "auto": false,
+    "prune": false
+  },
+  "mcp": {
+    "composio": {
+      "type": "remote",
+      "url": "https://connect.composio.dev/mcp",
+      "enabled": false
+    }
+  },
+  "permission": "allow"
+}

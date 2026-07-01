@@ -1,0 +1,77 @@
+window#osd {
+    border-radius: 16px;
+    border: none;
+    background-color: rgba(46, 52, 64, 0.9);
+    padding: 4px 12px;
+}
+
+window#osd label {
+    color: #D8DEE9;
+    font-size: 10px;
+    margin: 0 6px 0 2px;
+}
+
+window#osd image {
+    -gtk-icon-size: 12px;
+    color: #D8DEE9;
+    margin: 0 3px 0 0;
+}
+
+window#osd progressbar {
+    min-height: 3px;
+    min-width: 60px;
+    margin: 0 3px;
+}
+
+window#osd progressbar > trough {
+    min-height: 3px;
+    border-radius: 2px;
+    background-color: #3B4252;
+    border: none;
+}
+
+window#osd progressbar > trough > progress {
+    min-height: 3px;
+    border-radius: 2px;
+    background-color: #88C0D0;
+    border: none;
+}
+
+window#osd image:disabled,
+window#osd label:disabled {
+    color: #3b535b;
+    opacity: 1;
+}
+
+window#osd progressbar:disabled {
+    opacity: 1;
+}
+
+window#osd progressbar:disabled trough,
+window#osd progressbar:disabled progress {
+    background-color: #3b535b;
+}
+
+window#osd.muted {
+    background-color: rgba(46, 52, 64, 0.9);
+}
+
+window#osd.muted image,
+window#osd image.muted {
+    color: #3b535b;
+}
+
+window#osd.muted label,
+window#osd label.muted {
+    color: #3b535b;
+}
+
+window#osd.muted progressbar > trough,
+window#osd progressbar > trough.muted {
+    background-color: #3b535b;
+}
+
+window#osd.muted progressbar > trough > progress,
+window#osd progressbar > trough > progress.muted {
+    background-color: #3b535b;
+}

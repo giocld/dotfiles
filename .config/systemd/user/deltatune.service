@@ -1,0 +1,12 @@
+[Unit]
+Description=DeltaTune overlay
+After=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/deltatune
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

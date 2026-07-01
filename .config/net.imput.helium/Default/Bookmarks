@@ -1,0 +1,102 @@
+{
+   "checksum": "9b7ffc43261b7a637dcae3bf5385a562",
+   "roots": {
+      "bookmark_bar": {
+         "children": [  ],
+         "date_added": "13421586629517576",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "Bookmarks bar",
+         "type": "folder"
+      },
+      "other": {
+         "children": [ {
+            "date_added": "13421587991402236",
+            "date_last_used": "13421958558821872",
+            "guid": "6a3cdf8c-243f-41ad-9fcf-2f3b33e4f3ae",
+            "id": "5",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Τεχνολογία Λογισμικού - Google Docs",
+            "type": "url",
+            "url": "https://docs.google.com/document/d/1SnrZ8EHEYvR79QqsDH7V9oR6hY6efD5TIBREkYPW5Ks/edit?tab=t.0"
+         }, {
+            "date_added": "13422366870892525",
+            "date_last_used": "0",
+            "guid": "b432b5e4-5667-44ab-94e6-6e7b7b66a43e",
+            "id": "7",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "η",
+            "type": "url",
+            "url": "https://docs.google.com/document/d/1YZD8HF3AXB-QrAm0n5IzGqs36vj1gRxmbuGH_eMJVZY/edit?tab=t.0"
+         }, {
+            "date_added": "13423492585431693",
+            "date_last_used": "0",
+            "guid": "19251ae8-5888-443f-a965-afc0b8b5d79f",
+            "id": "9",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Εργασίες για το μάθημα Human Computer Interaction - Αίθουσα διδασκαλίας",
+            "type": "url",
+            "url": "https://classroom.google.com/u/2/w/NzcwNTEyMzgwNDAy/t/all"
+         }, {
+            "date_added": "13424275818701235",
+            "date_last_used": "0",
+            "guid": "06270577-5553-49d6-8a9f-c230fe450599",
+            "id": "11",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "ics25008Part3 - Google Docs",
+            "type": "url",
+            "url": "https://docs.google.com/document/d/1dVN0PSRYPHWM8Mo6Oy3SG_YtUPnH_x5Iz6MNuinpMjM/edit?tab=t.0"
+         }, {
+            "date_added": "13424973103555217",
+            "date_last_used": "0",
+            "guid": "d50846ea-d605-4673-a275-51ac136ee6b1",
+            "id": "13",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Human Computer Interaction - Αίθουσα διδασκαλίας",
+            "type": "url",
+            "url": "https://classroom.google.com/u/2/c/NzcwNTEyMzgwNDAy"
+         }, {
+            "date_added": "13427395309470808",
+            "date_last_used": "0",
+            "guid": "1c0ce2fc-8135-4802-85ae-9b280e9ec57c",
+            "id": "15",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "ERTFLIX",
+            "type": "url",
+            "url": "https://www.ertflix.gr/#/channels"
+         } ],
+         "date_added": "13421586629517576",
+         "date_last_used": "0",
+         "date_modified": "13427395309470808",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "Other bookmarks",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13421586629517576",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "Mobile bookmarks",
+         "type": "folder"
+      }
+   },
+   "version": 1
+}

@@ -1,0 +1,258 @@
+* {
+  font-family: "Miracode";
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 5px;
+  min-height: 0;
+}
+
+tooltip {
+  opacity: 1;
+}
+
+window#waybar {
+  background-color: #2E3440;
+  color: #ECEFF4;
+  border-radius: 10px;
+}
+
+#custom-launcher {
+  font-size: 15px;
+  margin: 5px;
+  padding: 0 5px;
+  border-radius: 5px;
+  background-color: #3B4252;
+}
+
+window#waybar.empty #window {
+  background: transparent;
+  color: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+#workspaces {
+  margin: 4px 0px;
+  padding: 0 4px;
+  background-color: #3B4252;
+  margin-left: 0px;
+}
+
+#workspaces button {
+  margin: 0px 0px;
+  padding: 0 4px;
+  background-color: transparent;
+  color: #ECEFF4;
+  border-radius: 5px;
+  transition: 0.15s ease-in-out;
+}
+
+#workspaces button:hover {
+  background: #4C566A;
+  color: #000;
+}
+
+#workspaces button.active {
+  background-color: #88C0D0;
+  color: #000;
+  margin: 0px 0px;
+  padding: 0 4px;
+}
+
+#workspaces button.empty {
+  color: alpha(#ECEFF4, 0.4);
+  opacity: 0.45;
+  transition: all 0.15s ease-in-out;
+}
+
+#workspaces button.empty.active {
+  background-color: #ECEFF4;
+  color: #000;
+}
+
+#niri-window {
+  padding: 0 12px;
+  margin: 5px 5px 5px 25px;
+  color: #ECEFF4;
+}
+
+#clock,
+#battery,
+#cpu,
+#mpris,
+#network,
+#pulseaudio,
+#idle_inhibitor,
+#power-profiles-daemon,
+#tray,
+#bluetooth,
+#backlight,
+#custom-updates {
+  padding: 0 8px;
+  color: #ECEFF4;
+  margin: 5px 5px 5px 0;
+}
+
+#tray {
+  background-color: #3B4252;
+}
+
+#clock, #idle_inhibitor, #custom-updates {
+  background-color: #3B4252;
+}
+
+#battery {
+  background-color: #3B4252;
+  color: #ECEFF4;
+}
+
+#battery.charging,
+#battery.plugged {
+  color: #ECEFF4;
+  background-color: #3B4252;
+}
+
+@keyframes blink {
+  to {
+    background-color: #ECEFF4;
+    color: #000000;
+  }
+}
+
+#battery.critical:not(.charging) {
+  background-color: #BF616A;
+  color: #ECEFF4;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: steps(12);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+#backlight {
+  background-color: #3B4252;
+  color: #ECEFF4;
+}
+
+#power-profiles-daemon {
+}
+
+#power-profiles-daemon.performance {
+  background-color: #5E81AC;
+  color: #ECEFF4;
+}
+
+#power-profiles-daemon.balanced {
+  background-color: #88C0D0;
+  color: #2E3440;
+}
+
+#power-profiles-daemon.power-saver {
+  background-color: #8FBCBB;
+  color: #2E3440;
+}
+
+#cpu {
+  background-color: #3B4252;
+  color: #ECEFF4;
+}
+
+#mpris {
+  background-color: #3B4252;
+  color: #ECEFF4;
+}
+
+#network {
+  background-color: #3B4252;
+}
+
+#network.disconnected {
+  background-color: #88C0D0;
+  color: #000;
+}
+
+#bluetooth {
+  background-color: #3B4252;
+}
+
+#bluetooth.disabled {
+  background-color: #88C0D0;
+  color: #000;
+}
+
+#pulseaudio {
+  background-color: #3B4252;
+  color: #ECEFF4;
+}
+
+#pulseaudio.muted {
+  background-color: #88C0D0;
+  color: #000;
+}
+
+#custom-power {
+  background-color: #3B4252;
+  color: #ECEFF4;
+  padding: 0 8px;
+  margin: 5px 5px 5px 0;
+}
+
+#custom-power:hover {
+  background-color: #BF616A;
+  color: #ECEFF4;
+}
+
+tooltip {
+  padding: 4px;
+  background: #3B4252;
+  border: 1px solid alpha(#ECEFF4, 0.8);
+  border-radius: 8px;
+  box-shadow: 1px 1px 3px 1px #2E3440;
+  font-size: 12px;
+}
+
+tooltip label {
+  color: #ECEFF4;
+  font-weight: normal;
+}
+
+@keyframes blink-inhibitor {
+  to {
+    color: #2E3440;
+  }
+}
+
+#idle_inhibitor {
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  color: #ECEFF4;
+}
+
+#idle_inhibitor.activated {
+  color: #A3BE8C;
+  animation-name: blink-inhibitor;
+  animation-duration: 1s;
+}
+
+#mpris {
+  color: #ECEFF4;
+  font-size: 13px;
+  padding: 0 12px;
+  margin-left: 10px;
+  margin-right: 20px;
+  animation: nord-pulse 4s ease-in-out infinite;
+}
+
+@keyframes nord-pulse {
+  0% {
+    color: #88C0D0;
+  }
+  50% {
+    color: #81A1C1;
+  }
+  100% {
+    color: #88C0D0;
+  }
+}

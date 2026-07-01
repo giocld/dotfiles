@@ -1,0 +1,215 @@
+{
+  "reload_style_on_change": true,
+  "layer": "top",
+  "position": "top",
+  "height": 24,
+  "margin-right": 5,
+  "margin-left": 5,
+  "margin-top": 0,
+  "margin-bottom": 3,
+  "spacing": 0,
+  "modules-left": ["custom/launcher", "niri/workspaces", "custom/spacer", "mpris", "niri/window"],
+  "modules-center": ["clock"],
+  "modules-right": [
+    "network",
+    "tray",
+    "backlight",
+    "bluetooth",
+    "pulseaudio",
+    "power-profiles-daemon",
+    "cpu",
+    "battery",
+    "custom/battery-icon",
+    "custom/power"
+  ],
+  "niri/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "1": "一",
+      "2": "二",
+      "3": "三",
+      "4": "四",
+      "5": "五",
+      "6": "六"
+    },
+    "persistent-workspaces": {
+      "*": [1, 2, 3, 4, 5, 6]
+    }
+  },
+  "niri/window": {
+    "format": "{title}",
+    "max-length": 65
+  },
+  "custom/spacer": {
+    "format": "  ",
+    "tooltip": false
+  },
+  "custom/launcher": {
+    "format": "∞",
+    "on-click": "fuzzel",
+    "tooltip-format": "Launcher\n\nClick to open"
+  },
+  "custom/updates": {
+    "format": "{}",
+    "exec": "checkupdates 2>/dev/null | wc -l | awk '{if ($1 > 0) print $1 \" 󰏖\"; else print \"\"}'",
+    "interval": 21600
+  },
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{percent}% {icon}",
+    "format-icons": [
+      "󰃚",
+      "󰃛",
+
+
+
+      "󰃜",
+      "󰃝",
+      "󰃞"
+    ]
+  },
+  "clock": {
+    "format": "{:%H:%M %d/%m}",
+    "format-alt": "{:%A, %d %B %Y - %H:%M}",
+    "tooltip-format": "<span>{calendar}</span>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "on-click-right": "mode",
+      "format": {
+        "month": "<span color='#88C0D0'><b>{}</b></span>",
+        "weekdays": "<span color='#81A1C1'><b>{}</b></span>",
+        "today": "<span color='#A3BE8C'><b>{}</b></span>"
+      }
+    }
+  },
+  "cpu": {
+    "interval": 2,
+    "format": "{usage}% 󰍛",
+    "on-click": "fuzzel -d -p 'Run: btop' -- btop"
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "",
+      "deactivated": ""
+    }
+  },
+  "battery": {
+    "format": "{capacity}% {icon}",
+    "format-discharging": "{capacity}% {icon}",
+    "format-charging": "{capacity}% {icon}",
+    "format-plugged": "",
+    "format-icons": {
+      "charging": [
+        "󰢜",
+        "󰂆",
+        "󰂇",
+        "󰂈",
+        "󰢝",
+        "󰂉",
+        "󰢞",
+        "󰂊",
+        "󰂋",
+        "󰂅"
+      ],
+      "default": [
+        "󰁺",
+        "󰁻",
+        "󰁼",
+        "󰁽",
+        "󰁾",
+        "󰁿",
+        "󰂀",
+        "󰂁",
+        "󰂂",
+        "󰁹"
+      ]
+    },
+    "format-full": "󰂅",
+    "tooltip-format-discharging": "{timeTo}",
+    "tooltip-format-charging": "{timeTo}",
+    "interval": 5,
+    "states": {
+      "warning": 20,
+      "critical": 10
+    }
+  },
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "",
+      "performance": "権",
+      "balanced": "残",
+      "power-saver": "軽"
+    }
+  },
+  "mpris": {
+    "format": "{player_icon} {title}",
+    "format-paused": "<span color='#4C566A'>{status_icon} {title}</span>",
+    "max-length": 45,
+    "interval": 1,
+    "player-icons": {
+      "default": "󰋎",
+      "mpv": "🎵"
+    },
+    "status-icons": {
+      "paused": "▶"
+    },
+    "ignored-players": ["firefox", "chromium", "brave"]
+  },
+  "network": {
+    "format-icons": [
+      "󰤯",
+      "󰤟",
+      "󰤢",
+      "󰤥",
+      "󰤨"
+    ],
+    "format": "{icon}",
+    "format-wifi": "{signalStrength}% {icon}",
+    "format-ethernet": " {bandwidthDownBytes}  {bandwidthUpBytes} ",
+    "format-disconnected": "󰤮",
+    "tooltip-format-wifi": "{essid} ({frequency} GHz)\n⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
+    "tooltip-format-disconnected": "Disconnected",
+    "interval": 3,
+    "spacing": 1
+  },
+  "bluetooth": {
+    "format": " {status}",
+    "format-disabled": "󰂲",
+    "format-connected": "",
+    "tooltip-format": "Devices connected: {num_connections}"
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "on-click-right": "pamixer -t",
+    "tooltip-format": "Playing at {volume}%",
+    "scroll-step": 5,
+    "format-muted": "",
+    "format-icons": {
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    }
+  },
+  "custom/battery-icon": {
+    "format": "",
+    "tooltip": false
+  },
+  "custom/power": {
+    "format": "󰐥",
+    "on-click": "wlogout --buttons-per-row 5",
+    "tooltip-format": "Power menu\n\nClick to open"
+  },
+  "tray": {
+    "icon-size": 14,
+    "spacing": 5,
+    "show-passive-items": true
+  }
+}

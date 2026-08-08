@@ -220,3 +220,41 @@ install_packages() {
     info "No packages-aur.txt found — skipping AUR step."
   fi
 }
+
+# ==========================
+# DOTFILES DEPLOY
+# ==========================
+deploy_dotfiles() {
+  if [[ -d "${DOTDIR}" ]] && [[ -d "${DOTDIR}/.git" ]]; then
+    msg "~/.cfg already exists — pulling latest..."
+    if ! git --git-dir="${DOTDIR}" pull --rebase >> "${LOG_FILE}" 2>&1; then
+      warn "Pull failed — continuing with existing checkout."
+    fi
+    return 0
+  fi
+
+  info "Cloning dotfiles as bare repo into ~/.cfg..."
+  if ! git clone --bare "${REPO_URL}" "${DOTDIR}" >> "${LOG_FILE}" 2>&1; then
+    fatal "Failed to clone ${REPO_URL}"
+  fi
+
+  local config_cmd=(git --git-dir="${DOTDIR}" --work-tree="${HOME}")
+  info "Checking out into ${HOME}..."
+  if ! "${config_cmd[@]}" checkout; then
+    info "Some files conflict with existing configs — backing them up."
+    mkdir -p "${BACKUP_DIR}"
+    "${config_cmd[@]}" checkout 2>&1 | grep -E '^\s+' | sed 's/^\s*//' | while read -r f; do
+      if [[ -e "${HOME}/${f}" ]] && [[ ! -e "${BACKUP_DIR}/${f}" ]]; then
+        mkdir -p "$(dirname "${BACKUP_DIR}/${f}")"
+        mv "${HOME}/${f}" "${BACKUP_DIR}/${f}"
+        info "Backed up: ${f}"
+      fi
+    done
+    "${config_cmd[@]}" checkout >> "${LOG_FILE}" 2>&1 \
+      || fatal "Checkout failed even after backing up conflicts."
+    warn "Conflicting configs backed up to: ${BACKUP_DIR}"
+  fi
+
+  "${config_cmd[@]}" config status.showUntrackedFiles no
+  msg "Dotfiles deployed. Use 'git --git-dir=\$HOME/.cfg --work-tree=\$HOME' to manage."
+}

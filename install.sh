@@ -186,3 +186,31 @@ choose_aur_helper() {
   AUR_HELPER="yay"
   msg "yay installed."
 }
+
+# ==========================
+# PACKAGE INSTALLATION
+# ==========================
+install_packages() {
+  local pac_list="${SCRIPT_DIR}/packages.txt"
+  local aur_list="${SCRIPT_DIR}/packages-aur.txt"
+
+  if [[ ! -f "${pac_list}" ]]; then
+    fatal "packages.txt not found next to script (${SCRIPT_DIR})."
+  fi
+
+  info "Installing pacman packages (this can take a while)..."
+  if ! sudo pacman -S --needed --noconfirm $(< "${pac_list}") >> "${LOG_FILE}" 2>&1; then
+    fatal "pacman package installation failed. See ${LOG_FILE}"
+  fi
+  msg "pacman packages installed."
+
+  if [[ -f "${aur_list}" ]] && [[ -s "${aur_list}" ]]; then
+    info "Installing AUR packages via ${AUR_HELPER}..."
+    if ! "${AUR_HELPER}" -S --needed --noconfirm $(< "${aur_list}") >> "${LOG_FILE}" 2>&1; then
+      fatal "AUR package installation failed. See ${LOG_FILE}"
+    fi
+    msg "AUR packages installed."
+  else
+    info "No packages-aur.txt found — skipping AUR step."
+  fi
+}

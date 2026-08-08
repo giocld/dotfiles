@@ -74,7 +74,7 @@ OPTIONS:
   -h, --help   Show this help and exit
 
 REQUIREMENTS:
-  - Arch-based distro (pacman)
+  - CachyOS (the package list includes CachyOS-only packages)
   - Internet connection, sudo access
   - ~5GB free space for packages
 
@@ -100,12 +100,12 @@ check_not_root() {
 
 check_arch_based() {
   if ! command -v pacman &>/dev/null; then
-    fatal "pacman not found — this script requires an Arch-based distro."
+    fatal "pacman not found — this script requires CachyOS (or Arch with CachyOS repos)."
   fi
-  if [[ -f /etc/os-release ]] && grep -qE '^ID=(arch|cachyos)$' /etc/os-release; then
-    msg "Arch-based system detected."
+  if [[ -f /etc/os-release ]] && grep -q '^ID=cachyos$' /etc/os-release; then
+    msg "CachyOS detected."
   else
-    warn "Could not verify distro — continuing on faith that pacman exists."
+    fatal "This script requires CachyOS — the package list includes CachyOS-only packages."
   fi
 }
 
@@ -198,15 +198,21 @@ install_packages() {
     fatal "packages.txt not found next to script (${SCRIPT_DIR})."
   fi
 
+  info "Syncing package database..."
+  sudo pacman -Sy --noconfirm >> "${LOG_FILE}" 2>&1 || fatal "Failed to sync package database."
+
   info "Installing pacman packages (this can take a while)..."
-  if ! sudo pacman -S --needed --noconfirm $(< "${pac_list}") >> "${LOG_FILE}" 2>&1; then
+  if ! sudo pacman -S --noprogressbar --needed --noconfirm $(< "${pac_list}") 2>&1 | tee -a "${LOG_FILE}"; then
     fatal "pacman package installation failed. See ${LOG_FILE}"
   fi
   msg "pacman packages installed."
 
   if [[ -f "${aur_list}" ]] && [[ -s "${aur_list}" ]]; then
+    if [[ -z "${AUR_HELPER}" ]]; then
+      fatal "AUR helper not set — ordering bug."
+    fi
     info "Installing AUR packages via ${AUR_HELPER}..."
-    if ! "${AUR_HELPER}" -S --needed --noconfirm $(< "${aur_list}") >> "${LOG_FILE}" 2>&1; then
+    if ! "${AUR_HELPER}" -S --needed --noconfirm $(< "${aur_list}") 2>&1 | tee -a "${LOG_FILE}"; then
       fatal "AUR package installation failed. See ${LOG_FILE}"
     fi
     msg "AUR packages installed."

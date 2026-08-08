@@ -149,3 +149,40 @@ cleanup_on_exit() {
 trap 'cleanup_on_exit' EXIT
 trap 'exit 130' INT
 trap 'exit 143' TERM
+
+# ==========================
+# BASE TOOLS & AUR HELPER
+# ==========================
+install_base_tools() {
+  info "Installing base development tools..."
+  sudo pacman -S --needed --noconfirm git base-devel curl jq >> "${LOG_FILE}" 2>&1 \
+    || fatal "Failed to install base tools."
+  msg "Base tools installed (git, base-devel, curl, jq)."
+}
+
+choose_aur_helper() {
+  if command -v yay &>/dev/null && yay --version &>/dev/null; then
+    AUR_HELPER="yay"
+    msg "Using existing yay."
+    return 0
+  fi
+  if command -v paru &>/dev/null; then
+    AUR_HELPER="paru"
+    msg "Using existing paru."
+    return 0
+  fi
+  info "Installing yay from AUR..."
+  local tmp
+  tmp="$(mktemp -d)"
+  if ! git clone --depth=1 https://aur.archlinux.org/yay-bin.git "${tmp}" >> "${LOG_FILE}" 2>&1; then
+    rm -rf "${tmp}"
+    fatal "Failed to clone yay."
+  fi
+  if ! (cd "${tmp}" && makepkg -si --noconfirm >> "${LOG_FILE}" 2>&1); then
+    rm -rf "${tmp}"
+    fatal "Failed to build yay."
+  fi
+  rm -rf "${tmp}"
+  AUR_HELPER="yay"
+  msg "yay installed."
+}

@@ -17,7 +17,12 @@ while true; do
     fi
 
     if [ -n "$PREV_MUTED" ] && [ "$CUR_MUTED" != "$PREV_MUTED" ]; then
-        swayosd-client --output-volume mute-toggle
+        if [ "$CUR_MUTED" -gt 0 ]; then
+            swayosd-client --custom-message "Muted" --custom-icon audio-speakers-muted
+        else
+            VOL_PCT=$(awk "BEGIN {printf \"%.0f\", $CUR_VOL * 100}")
+            swayosd-client --custom-message "$VOL_PCT%" --custom-icon audio-speakers --custom-progress "$CUR_VOL"
+        fi
     fi
 
     PREV_VOL="$CUR_VOL"

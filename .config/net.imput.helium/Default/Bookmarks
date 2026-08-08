@@ -1,5 +1,5 @@
 {
-   "checksum": "9b7ffc43261b7a637dcae3bf5385a562",
+   "checksum": "cb699bb7031f10fae45d5b1749198d7a",
    "roots": {
       "bookmark_bar": {
          "children": [  ],
@@ -78,10 +78,21 @@
             "name": "ERTFLIX",
             "type": "url",
             "url": "https://www.ertflix.gr/#/channels"
+         }, {
+            "date_added": "13430658511546268",
+            "date_last_used": "0",
+            "guid": "e545430f-b662-4cba-bd0d-c0f64a49d11e",
+            "id": "17",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Διαχείριση Έργων Πληροφορικής (2025-26)",
+            "type": "url",
+            "url": "https://kvergidis.notion.site/2025-26-27eea783363280c6b975cf694c6c4d10"
          } ],
          "date_added": "13421586629517576",
          "date_last_used": "0",
-         "date_modified": "13427395309470808",
+         "date_modified": "13430658511546268",
          "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
          "id": "2",
          "name": "Other bookmarks",

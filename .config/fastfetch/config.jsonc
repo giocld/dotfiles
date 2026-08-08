@@ -31,7 +31,6 @@
     },
     {
       "type": "packages",
-      "format": "{1}",
       "key": "pack   ",
       "keyColor": "#729ebd"
     },
@@ -61,6 +60,17 @@
       },
       "key": "space  ",
       "keyColor": "#729ebd"
+    },
+    {
+      "type": "wm",
+      "key": "wm     ",
+      "keyColor": "#729ebd"
+    },
+    {
+      "type": "command",
+      "key": "res    ",
+      "keyColor": "#729ebd",
+      "text": "wlr-randr 2>/dev/null | grep -oP '\\d+x\\d+ px.*current' | grep -oP '\\d+x\\d+' | head -1"
     },
     {
       "type": "battery",

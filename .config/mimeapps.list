@@ -1,4 +1,3 @@
-
 [Default Applications]
 text/html=helium.desktop
 x-scheme-handler/http=helium.desktop
@@ -8,3 +7,6 @@ x-scheme-handler/unknown=helium.desktop
 x-scheme-handler/discord=vesktop.desktop
 x-scheme-handler/mailto=helium.desktop
 x-scheme-handler/viber=viber.desktop
+
+[Added Associations]
+text/html=vscodium.desktop;

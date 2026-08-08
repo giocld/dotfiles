@@ -2,8 +2,9 @@
 spawn-sh-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &"
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "awww-daemon"
+spawn-sh-at-startup "/home/gio/.config/scripts/awww-monitor.sh &"
 spawn-at-startup "waybar"
-spawn-sh-at-startup "/home/gio/.dotfiles-sevens/niri/scripts/volume-osd-monitor.sh &"
+// spawn-sh-at-startup "/home/gio/.dotfiles-sevens/niri/scripts/volume-osd-monitor.sh &"
 spawn-at-startup "sh" "-c" "vicinae server &"
 
 // General Settings
@@ -54,7 +55,7 @@ overview {
 
 layer-rule {
     match namespace="^awww-daemon$"
-    place-within-backdrop true
+    place-within-backdrop true 
 }
 
 binds {
@@ -74,10 +75,10 @@ binds {
   //MOD+W                               hotkey-overlay-title="Open Wallpaper Selector" { spawn-sh "$HOME/.config/scripts/bgselector.sh"; }
     MOD+N                               hotkey-overlay-title="Open Neovim" { spawn-sh "alacritty -e nvim";}
     MOD+O                               hotkey-overlay-title="Open Neovim" { spawn-sh "alacritty -e opencode";}
-    MOD+I                               hotkey-overlay-title="Open ItelliJ" { spawn-sh "kitty -e idea";}
-    MOD+ALT+S                           hotkey-overlay-title="Open Spotify" {spawn-sh "alacritty -e spotify-launcher";}
-    ALT+M                            hotkey-overlay-title="Open Spotify" {spawn-sh "kitty -e spotify-launcher";}
-    ALT+H                               hotkey-overlay-title="Open Hermes Agent" {spawn-sh "kitty -e hermes";}
+    MOD+I                               hotkey-overlay-title="Open ItelliJ" { spawn-sh "idea";}
+    MOD+ALT+S                           hotkey-overlay-title="Open Spotify" {spawn-sh "spotify-launcher";}
+    ALT+M                            hotkey-overlay-title="Open Spotify" {spawn-sh "spotify-launcher";}
+    ALT+H                               hotkey-overlay-title="Open Hermes Agent" {spawn-sh "hermes";}
     MOD+V                               hotkey-overlay-title="Open VSCode" { spawn-sh "vscodium";}
     ALT+D                               hotkey-overlay-title="Open Discord" { spawn-sh "vesktop"; }
     MOD+SHIFT+P                         hotkey-overlay-title="Open Power Menu" { spawn-sh "wlogout --buttons-per-row 4"; }
@@ -312,6 +313,7 @@ window-rule {
     match app-id=r#"zen$"#
     match app-id=r#"helium$"#
     match app-id=r#"Stremio$"#
+    match app-id=r#"jetbrains-idea"#
     open-maximized true
     opacity 0.9
 }

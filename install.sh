@@ -116,7 +116,7 @@ check_internet() {
   fi
   local ok=false
   for ep in "https://archlinux.org" "https://github.com" "https://aur.archlinux.org"; do
-    if curl -s --connect-timeout 5 --max-time 10 "${ep}" >/dev/null 2>&1; then
+    if curl -sf --connect-timeout 5 --max-time 10 "${ep}" >/dev/null 2>&1; then
       ok=true
       break
     fi
@@ -131,9 +131,7 @@ check_sudo() {
   if ! sudo -v; then
     fatal "Sudo required. Ensure the user has sudo rights."
   fi
-  (
-    while true; do sudo -v; sleep 50; done
-  ) &
+  ( while sleep 50; do sudo -v || true; done ) &
   SUDO_PID=$!
   msg "Sudo privileges verified (keep-alive started)."
 }
@@ -143,8 +141,11 @@ cleanup_on_exit() {
   if [[ -n "${SUDO_PID}" ]] && kill -0 "${SUDO_PID}" 2>/dev/null; then
     kill "${SUDO_PID}" 2>/dev/null || true
   fi
+  sudo -k 2>/dev/null || true
   if [[ ${code} -ne 0 ]]; then
     error "Script exited with code ${code}"
   fi
 }
-trap 'cleanup_on_exit' EXIT INT TERM
+trap 'cleanup_on_exit' EXIT
+trap 'exit 130' INT
+trap 'exit 143' TERM

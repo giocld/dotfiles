@@ -330,7 +330,8 @@ install_wallpapers() {
 # ==========================
 install_theme_from_git() {
   # $1 = repo URL, $2 = install command string (run in repo dir)
-  local repo="$1"; shift
+  local repo="$1"
+  local cmd="$2"
   local dir
   dir="$(mktemp -d)"
   info "Cloning ${repo##*/}..."
@@ -339,7 +340,7 @@ install_theme_from_git() {
     warn "Failed to clone ${repo} — skipping."
     return 1
   fi
-  if ! (cd "${dir}" && bash -c "$*" >> "${LOG_FILE}" 2>&1); then
+  if ! (cd "${dir}" && bash -c "${cmd}" >> "${LOG_FILE}" 2>&1); then
     rm -rf "${dir}"
     warn "Theme install failed for ${repo} — skipping."
     return 1
@@ -355,7 +356,12 @@ install_gtk_themes() {
   else
     install_theme_from_git \
       "https://github.com/vinceliuice/Colloid-gtk-theme" \
-      "./install.sh --libadwaita --tweaks all rimless"
+      "./install.sh --libadwaita --tweaks all rimless" \
+      || true
+    install_theme_from_git \
+      "https://github.com/vinceliuice/Colloid-gtk-theme" \
+      "./install.sh --libadwaita --theme grey --tweaks black rimless" \
+      || true
   fi
 
   if [[ -d "${HOME}/.themes/Osaka-Dark-Solarized" ]]; then
@@ -363,7 +369,8 @@ install_gtk_themes() {
   else
     install_theme_from_git \
       "https://github.com/Fausto-Korpsvart/Osaka-GTK-Theme" \
-      "cd themes && ./install.sh --libadwaita --tweaks solarized macos"
+      "cd themes && ./install.sh --libadwaita --tweaks solarized macos" \
+      || true
   fi
 
   if [[ -d "${HOME}/.themes/Rosepine-Dark-Moon" ]]; then
@@ -371,13 +378,15 @@ install_gtk_themes() {
   else
     install_theme_from_git \
       "https://github.com/Fausto-Korpsvart/Rose-Pine-GTK-Theme" \
-      "cd themes && ./install.sh --libadwaita --tweaks moon macos"
+      "cd themes && ./install.sh --libadwaita --tweaks moon macos" \
+      || true
   fi
 
   if [[ ! -d "${HOME}/.icons/Colloid" ]]; then
     install_theme_from_git \
       "https://github.com/vinceliuice/Colloid-icon-theme" \
-      "./install.sh -d ${HOME}/.icons --scheme all --bold"
+      "./install.sh -d \"${HOME}/.icons\" --scheme all --bold" \
+      || true
   else
     msg "Colloid icon theme already present — skipping."
   fi

@@ -27,6 +27,9 @@ declare -a INSTALL_SUMMARY=()
 # sudo keep-alive PID
 SUDO_PID=""
 
+# Conflict backup flag (set in deploy_dotfiles)
+CONFLICTS_BACKED_UP=false
+
 # ==========================
 # COLOR OUTPUT
 # ==========================
@@ -254,6 +257,7 @@ deploy_dotfiles() {
     "${config_cmd[@]}" checkout >> "${LOG_FILE}" 2>&1 \
       || fatal "Checkout failed after conflict handling. See ${LOG_FILE}"
     warn "Conflicting configs backed up to: ${BACKUP_DIR}"
+    CONFLICTS_BACKED_UP=true
   fi
 
   "${config_cmd[@]}" config status.showUntrackedFiles no
@@ -264,7 +268,7 @@ deploy_dotfiles() {
 # POST-DEPLOY ASSETS
 # ==========================
 install_miracode_font() {
-  local src="${HOME}/.local/share/fonts/Miracode.ttf"
+  local src="${FONTS_DIR}/Miracode.ttf"
   if [[ ! -f "${src}" ]]; then
     warn "Miracode.ttf not found in repo checkout — skipping font."
     return 0
@@ -436,6 +440,9 @@ print_summary() {
   for item in "${INSTALL_SUMMARY[@]}"; do
     printf "  ${GREEN}✓${NC} %s\n" "${item}"
   done
+  if [[ "${CONFLICTS_BACKED_UP}" == "true" ]]; then
+    printf "  ${YELLOW}Conflicts were backed up to:${NC} %s\n" "${BACKUP_DIR}"
+  fi
   printf "\n${BOLD}Next steps:${NC}\n"
   printf "  1. Log out and select Niri in SDDM\n"
   printf "  2. If Nord wallpapers missing: copy from old device manually\n"

@@ -4,10 +4,7 @@ alacritty
 alsa-firmware
 alsa-plugins
 alsa-utils
-ani-cli
-anydesk-bin
 awesome-terminal-fonts
-awww-git
 base
 base-devel
 bash-completion
@@ -51,7 +48,6 @@ cpupower
 cryptsetup
 cursor-bin
 debuginfod
-deltatune-linux
 device-mapper
 diffutils
 discord
@@ -84,7 +80,6 @@ github-cli
 glances
 glfw
 gnome-desktop
-gnome-network-displays
 goverlay
 grub
 grub-btrfs-support
@@ -96,7 +91,6 @@ gst-plugins-bad
 gst-plugins-base
 gst-plugins-ugly
 gtklock
-harlequin
 hdparm
 helium-browser-bin
 heroic-games-launcher-bin
@@ -105,7 +99,6 @@ hwinfo
 hyphen
 hyprlock
 hyprpicker
-hyprshade
 inetutils
 intel-media-driver
 intel-ucode
@@ -113,12 +106,9 @@ intellij-idea-community-edition
 iptables
 iwd
 jfsutils
-jjui-bin
 jujutsu
-kanata
 keyd
 kitty
-kwin-effects-glass-git
 lazygit
 less
 lib32-mesa
@@ -130,8 +120,6 @@ libgsf
 libopenraw
 libreoffice-fresh
 linux-firmware
-lobster
-localsend-bin
 logrotate
 lsb-release
 lsscsi
@@ -159,7 +147,6 @@ networkmanager
 networkmanager-openvpn
 nfs-utils
 nilfs-utils
-niri-switch
 nm-connection-editor
 noto-fonts
 noto-fonts-cjk
@@ -179,7 +166,6 @@ pavucontrol
 perl
 php
 phpmyadmin
-pipes.sh
 pipewire-alsa
 pipewire-pulse
 pkgfile
@@ -214,13 +200,10 @@ smartmontools
 snapper
 sof-firmware
 soundfont-fluid
-spicetify-cli
 spotify-launcher
 starship
-stremio
 sudo
 superfile
-suwayomi-server-bin
 swaync
 swayosd
 sysfsutils
@@ -244,14 +227,11 @@ upower
 usb_modeswitch
 usbutils
 vesktop
-viber
-vicinae-bin
 vim
 vlc-plugins-all
 vpl-gpu-rt
 vscodium
 vulkan-intel
-wallust
 waybar
 wev
 wget

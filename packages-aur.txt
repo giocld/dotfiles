@@ -5,7 +5,6 @@ deltatune-linux
 gnome-network-displays
 harlequin
 hyprshade
-jack
 jjui-bin
 kanata
 kwin-effects-glass-git
@@ -13,17 +12,9 @@ lobster
 localsend-bin
 niri-switch
 pipes.sh
-python-pandas-stubs
-python-questionary
-python-shandy-sqlfmt
-python-textual-fastdatatable
-python-textual-textarea
-python-tree-sitter
-python-tree-sitter-sql
 spicetify-cli
 stremio
 suwayomi-server-bin
-tree-sitter-sql
 viber
 vicinae-bin
 wallust

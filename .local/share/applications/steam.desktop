@@ -1,0 +1,1 @@
+Exec=env STEAM_FORCE_DESKTOPUI_SCALING=1 steam -cef-disable-gpu %U

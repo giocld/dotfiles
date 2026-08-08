@@ -166,7 +166,7 @@ choose_aur_helper() {
     msg "Using existing yay."
     return 0
   fi
-  if command -v paru &>/dev/null; then
+  if command -v paru &>/dev/null && paru --version &>/dev/null; then
     AUR_HELPER="paru"
     msg "Using existing paru."
     return 0

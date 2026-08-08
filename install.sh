@@ -249,7 +249,7 @@ deploy_dotfiles() {
         mv "${HOME}/${f}" "${BACKUP_DIR}/${f}"
         info "Backed up: ${f}"
       fi
-    done
+    done || true
     "${config_cmd[@]}" checkout >> "${LOG_FILE}" 2>&1 \
       || fatal "Checkout failed even after backing up conflicts."
     warn "Conflicting configs backed up to: ${BACKUP_DIR}"

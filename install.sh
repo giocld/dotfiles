@@ -414,3 +414,90 @@ enable_user_services() {
   done
   msg "User services enabled."
 }
+
+# ==========================
+# SUMMARY
+# ==========================
+print_header() {
+  printf "${GREEN}${BOLD}"
+  cat << "EOF"
+════════════════════════════════════════════════════════
+  DOTIFLES — Full device recreation installer
+════════════════════════════════════════════════════════
+EOF
+  printf "${NC}\n"
+  printf "Repo: ${BLUE}%s${NC}\n" "${REPO_URL}"
+  printf "Log:  ${BLUE}%s${NC}\n" "${LOG_FILE}"
+  printf "\n"
+}
+
+print_summary() {
+  printf "\n${GREEN}${BOLD}INSTALLATION COMPLETE${NC}\n\n"
+  for item in "${INSTALL_SUMMARY[@]}"; do
+    printf "  ${GREEN}✓${NC} %s\n" "${item}"
+  done
+  printf "\n${BOLD}Next steps:${NC}\n"
+  printf "  1. Log out and select Niri in SDDM\n"
+  printf "  2. If Nord wallpapers missing: copy from old device manually\n"
+  printf "  3. Apple-cursors: install from gnome-look.org if wanted\n"
+  printf "\n"
+}
+
+main() {
+  mkdir -p "${LOG_DIR}"
+
+  print_header
+
+  step "Pre-flight Checks"
+  check_not_root
+  check_arch_based
+  check_sudo
+  check_internet
+  add_summary "Pre-flight checks passed"
+
+  step "Base Tools"
+  install_base_tools
+  add_summary "Base tools installed"
+
+  step "AUR Helper"
+  choose_aur_helper
+  add_summary "AUR helper: ${AUR_HELPER}"
+
+  step "Packages"
+  install_packages
+  add_summary "All packages installed"
+
+  step "Dotfiles Deploy"
+  deploy_dotfiles
+  add_summary "Dotfiles checked out to ${HOME}"
+
+  step "Fonts, SDDM, Wallpapers"
+  install_miracode_font
+  install_sddm_theme
+  install_wallpapers
+  add_summary "Assets installed (font, SDDM, wallpapers)"
+
+  step "GTK Themes & Icons"
+  install_gtk_themes
+  add_summary "GTK themes/icons processed"
+
+  step "Systemd User Services"
+  enable_user_services
+  add_summary "User services enabled"
+
+  step "Finalize"
+  print_summary
+}
+
+parse_arguments() {
+  while [[ $# -gt 0 ]]; do
+    case "$1" in
+      -h|--help) usage; exit 0 ;;
+      *) error "Unknown option: $1"; usage; exit 1 ;;
+    esac
+    shift
+  done
+}
+
+parse_arguments "$@"
+main

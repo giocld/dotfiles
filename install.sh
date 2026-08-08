@@ -225,9 +225,11 @@ install_packages() {
 # DOTFILES DEPLOY
 # ==========================
 deploy_dotfiles() {
-  if [[ -d "${DOTDIR}" ]] && [[ -d "${DOTDIR}/.git" ]]; then
+  local config_cmd=(git --git-dir="${DOTDIR}" --work-tree="${HOME}")
+  if [[ -d "${DOTDIR}" ]] && git --git-dir="${DOTDIR}" rev-parse --git-dir &>/dev/null; then
     msg "~/.cfg already exists — pulling latest..."
-    if ! git --git-dir="${DOTDIR}" pull --rebase >> "${LOG_FILE}" 2>&1; then
+    "${config_cmd[@]}" config status.showUntrackedFiles no || warn "Could not set status.showUntrackedFiles."
+    if ! git --git-dir="${DOTDIR}" --work-tree="${HOME}" pull --rebase >> "${LOG_FILE}" 2>&1; then
       warn "Pull failed — continuing with existing checkout."
     fi
     return 0
@@ -235,10 +237,10 @@ deploy_dotfiles() {
 
   info "Cloning dotfiles as bare repo into ~/.cfg..."
   if ! git clone --bare "${REPO_URL}" "${DOTDIR}" >> "${LOG_FILE}" 2>&1; then
+    warn "~/.cfg exists but is not a valid git repo — remove it to re-clone."
     fatal "Failed to clone ${REPO_URL}"
   fi
 
-  local config_cmd=(git --git-dir="${DOTDIR}" --work-tree="${HOME}")
   info "Checking out into ${HOME}..."
   if ! "${config_cmd[@]}" checkout; then
     info "Some files conflict with existing configs — backing them up."
@@ -251,7 +253,7 @@ deploy_dotfiles() {
       fi
     done || true
     "${config_cmd[@]}" checkout >> "${LOG_FILE}" 2>&1 \
-      || fatal "Checkout failed even after backing up conflicts."
+      || fatal "Checkout failed after conflict handling. See ${LOG_FILE}"
     warn "Conflicting configs backed up to: ${BACKUP_DIR}"
   fi
 

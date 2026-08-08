@@ -260,3 +260,60 @@ deploy_dotfiles() {
   "${config_cmd[@]}" config status.showUntrackedFiles no
   msg "Dotfiles deployed. Use 'git --git-dir=\$HOME/.cfg --work-tree=\$HOME' to manage."
 }
+
+# ==========================
+# POST-DEPLOY ASSETS
+# ==========================
+install_miracode_font() {
+  local src="${HOME}/.local/share/fonts/Miracode.ttf"
+  if [[ ! -f "${src}" ]]; then
+    warn "Miracode.ttf not found in repo checkout — skipping font."
+    return 0
+  fi
+  mkdir -p "${FONTS_DIR}"
+  cp "${src}" "${FONTS_DIR}/"
+  fc-cache -f >/dev/null 2>&1 || true
+  msg "Miracode font installed."
+}
+
+install_sddm_theme() {
+  local src="${HOME}/.config/sddm/SilentSDDM"
+  if [[ ! -d "${src}" ]]; then
+    warn "SilentSDDM theme not in repo checkout — skipping."
+    return 0
+  fi
+  info "Installing SilentSDDM theme (needs sudo)..."
+  sudo mkdir -p /usr/share/sddm/themes
+  sudo cp -r "${src}" /usr/share/sddm/themes/
+  if [[ ! -f /etc/sddm.conf.d/10-silentsddm.conf ]]; then
+    sudo mkdir -p /etc/sddm.conf.d
+    echo "[Theme]
+Current=SilentSDDM" | sudo tee /etc/sddm.conf.d/10-silentsddm.conf >/dev/null
+  fi
+  msg "SilentSDDM theme installed and set as default."
+}
+
+install_wallpapers() {
+  mkdir -p "${WALLPAPERS_DIR}"
+  local count=0
+  for img in "${HOME}"/.config/wallpapers/*; do
+    if [[ -f "${img}" ]]; then
+      cp "${img}" "${WALLPAPERS_DIR}/"
+      ((++count)) || true
+    fi
+  done
+  if [[ ${count} -gt 0 ]]; then
+    msg "Copied ${count} wallpaper(s) to ${WALLPAPERS_DIR}."
+  else
+    warn "No wallpapers found in repo — skipping."
+  fi
+
+  if command -v awww &>/dev/null && [[ -f "${WALLPAPERS_DIR}/fireplace.gif" ]]; then
+    info "Applying fireplace.gif via awww..."
+    awww img "${WALLPAPERS_DIR}/fireplace.gif" -t none || warn "awww apply failed — apply manually."
+  fi
+
+  if [[ ! -d "${WALLPAPERS_DIR}/Nord" ]]; then
+    warn "Nord wallpapers (f1-rosberg.jpg) are NOT in the repo — copy them manually from the old device."
+  fi
+}

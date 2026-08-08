@@ -13,7 +13,6 @@ readonly LOG_FILE="${LOG_DIR}/dotifles-install-$(date +%Y%m%d_%H%M%S).log"
 readonly SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 readonly FONTS_DIR="${HOME}/.local/share/fonts"
 readonly WALLPAPERS_DIR="${HOME}/Pictures/Wallpapers"
-readonly SDDM_THEMES_DIR="${HOME}/.local/share/sddm/themes"
 
 # AUR helper choice (set in choose_aur_helper)
 AUR_HELPER=""
@@ -270,8 +269,6 @@ install_miracode_font() {
     warn "Miracode.ttf not found in repo checkout — skipping font."
     return 0
   fi
-  mkdir -p "${FONTS_DIR}"
-  cp "${src}" "${FONTS_DIR}/"
   fc-cache -f >/dev/null 2>&1 || true
   msg "Miracode font installed."
 }
@@ -283,12 +280,22 @@ install_sddm_theme() {
     return 0
   fi
   info "Installing SilentSDDM theme (needs sudo)..."
-  sudo mkdir -p /usr/share/sddm/themes
-  sudo cp -r "${src}" /usr/share/sddm/themes/
+  sudo mkdir -p /usr/share/sddm/themes || { warn "Cannot create /usr/share/sddm/themes — skipping SDDM theme."; return 0; }
+  sudo cp -r "${src}" /usr/share/sddm/themes/ || { warn "Failed to copy SilentSDDM theme — skipping."; return 0; }
+  sudo rm -rf /usr/share/sddm/themes/SilentSDDM/docs \
+    /usr/share/sddm/themes/SilentSDDM/nix \
+    /usr/share/sddm/themes/SilentSDDM/flake.nix \
+    /usr/share/sddm/themes/SilentSDDM/flake.lock \
+    /usr/share/sddm/themes/SilentSDDM/default.nix \
+    /usr/share/sddm/themes/SilentSDDM/install.sh \
+    /usr/share/sddm/themes/SilentSDDM/test.sh \
+    /usr/share/sddm/themes/SilentSDDM/change_avatar.sh \
+    /usr/share/sddm/themes/SilentSDDM/README.md \
+    /usr/share/sddm/themes/SilentSDDM/LICENSE 2>/dev/null || true
   if [[ ! -f /etc/sddm.conf.d/10-silentsddm.conf ]]; then
-    sudo mkdir -p /etc/sddm.conf.d
+    sudo mkdir -p /etc/sddm.conf.d || true
     echo "[Theme]
-Current=SilentSDDM" | sudo tee /etc/sddm.conf.d/10-silentsddm.conf >/dev/null
+Current=SilentSDDM" | sudo tee /etc/sddm.conf.d/10-silentsddm.conf >/dev/null || warn "Could not write SDDM theme config — set Current=SilentSDDM manually."
   fi
   msg "SilentSDDM theme installed and set as default."
 }

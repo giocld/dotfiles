@@ -324,3 +324,84 @@ install_wallpapers() {
     warn "Nord wallpapers (f1-rosberg.jpg) are NOT in the repo — copy them manually from the old device."
   fi
 }
+
+# ==========================
+# GTK THEMES & ICONS (best effort)
+# ==========================
+install_theme_from_git() {
+  # $1 = repo URL, $2 = install command string (run in repo dir)
+  local repo="$1"; shift
+  local dir
+  dir="$(mktemp -d)"
+  info "Cloning ${repo##*/}..."
+  if ! git clone --depth=1 "${repo}" "${dir}" >> "${LOG_FILE}" 2>&1; then
+    rm -rf "${dir}"
+    warn "Failed to clone ${repo} — skipping."
+    return 1
+  fi
+  if ! (cd "${dir}" && bash -c "$*" >> "${LOG_FILE}" 2>&1); then
+    rm -rf "${dir}"
+    warn "Theme install failed for ${repo} — skipping."
+    return 1
+  fi
+  rm -rf "${dir}"
+  msg "Installed theme: ${repo##*/}"
+  return 0
+}
+
+install_gtk_themes() {
+  if [[ -d "${HOME}/.themes/Colloid" ]]; then
+    msg "Colloid GTK themes already present — skipping."
+  else
+    install_theme_from_git \
+      "https://github.com/vinceliuice/Colloid-gtk-theme" \
+      "./install.sh --libadwaita --tweaks all rimless"
+  fi
+
+  if [[ -d "${HOME}/.themes/Osaka-Dark-Solarized" ]]; then
+    msg "Osaka themes already present — skipping."
+  else
+    install_theme_from_git \
+      "https://github.com/Fausto-Korpsvart/Osaka-GTK-Theme" \
+      "cd themes && ./install.sh --libadwaita --tweaks solarized macos"
+  fi
+
+  if [[ -d "${HOME}/.themes/Rosepine-Dark-Moon" ]]; then
+    msg "Rose Pine themes already present — skipping."
+  else
+    install_theme_from_git \
+      "https://github.com/Fausto-Korpsvart/Rose-Pine-GTK-Theme" \
+      "cd themes && ./install.sh --libadwaita --tweaks moon macos"
+  fi
+
+  if [[ ! -d "${HOME}/.icons/Colloid" ]]; then
+    install_theme_from_git \
+      "https://github.com/vinceliuice/Colloid-icon-theme" \
+      "./install.sh -d ${HOME}/.icons --scheme all --bold"
+  else
+    msg "Colloid icon theme already present — skipping."
+  fi
+
+  if [[ ! -d "${HOME}/.icons/Apple-cursors" ]]; then
+    warn "Apple-cursors is not in a repo (gnome-look download). Install manually from gnome-look.org."
+  fi
+}
+
+# ==========================
+# SYSTEMD USER SERVICES
+# ==========================
+enable_user_services() {
+  local wants="${HOME}/.config/systemd/user/graphical-session.target.wants"
+  if [[ ! -d "${wants}" ]]; then
+    info "No graphical-session.wants dir — skipping service enable."
+    return 0
+  fi
+  systemctl --user daemon-reload >> "${LOG_FILE}" 2>&1 || true
+  for unit in "${wants}"/*; do
+    local name
+    name="$(basename "${unit}")"
+    info "Enabling user service: ${name}"
+    systemctl --user enable "${name}" >> "${LOG_FILE}" 2>&1 || warn "Could not enable ${name}"
+  done
+  msg "User services enabled."
+}

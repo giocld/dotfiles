@@ -40,7 +40,9 @@ The script clones the repo itself using the origin URL (hardcoded, matches `~/.c
    - Miracode font → `~/.local/share/fonts/` + `fc-cache -f`
    - SilentSDDM theme → `~/.local/share/sddm/themes/`
    - Wallpapers (`fireplace.gif`, `current.jpg`) → `~/Pictures/Wallpapers/`
-   - Apply via `awww`: `fireplace.gif` to all outputs; set `f1-rosberg.jpg` for Nord dark theme
+   - Apply via `awww`: `fireplace.gif` to all outputs
+   - Note: `f1-rosberg.jpg` is NOT in the repo (user choice) — must be copied manually
+     from this device; script prints a reminder if the Nord wallpaper dir is missing
 7. **GTK themes/icons** (not in repo — ~1.1GB on disk): best-effort clone+install
    - Colloid-gtk-theme (all variants currently installed: Colloid, Colloid-Dark, Nord, Dracula, Gruvbox, Catppuccin, Everforest, Grey)
    - Osaka-GTK-Theme (Solarized)

@@ -88,3 +88,63 @@ INSTALLS:
 LOG FILE: ${LOG_FILE}
 EOF
 }
+
+# ==========================
+# PRE-FLIGHT CHECKS
+# ==========================
+check_not_root() {
+  if [[ ${EUID} -eq 0 ]]; then
+    fatal "Do not run as root. Run as a regular user with sudo."
+  fi
+}
+
+check_arch_based() {
+  if ! command -v pacman &>/dev/null; then
+    fatal "pacman not found — this script requires an Arch-based distro."
+  fi
+  if [[ -f /etc/os-release ]] && grep -qE '^ID=(arch|cachyos)$' /etc/os-release; then
+    msg "Arch-based system detected."
+  else
+    warn "Could not verify distro — continuing on faith that pacman exists."
+  fi
+}
+
+check_internet() {
+  if ! command -v curl &>/dev/null; then
+    warn "curl missing — will install with base tools."
+    return 0
+  fi
+  local ok=false
+  for ep in "https://archlinux.org" "https://github.com" "https://aur.archlinux.org"; do
+    if curl -s --connect-timeout 5 --max-time 10 "${ep}" >/dev/null 2>&1; then
+      ok=true
+      break
+    fi
+  done
+  if [[ "${ok}" == "false" ]]; then
+    fatal "No internet connection."
+  fi
+  msg "Internet connection verified."
+}
+
+check_sudo() {
+  if ! sudo -v; then
+    fatal "Sudo required. Ensure the user has sudo rights."
+  fi
+  (
+    while true; do sudo -v; sleep 50; done
+  ) &
+  SUDO_PID=$!
+  msg "Sudo privileges verified (keep-alive started)."
+}
+
+cleanup_on_exit() {
+  local code=$?
+  if [[ -n "${SUDO_PID}" ]] && kill -0 "${SUDO_PID}" 2>/dev/null; then
+    kill "${SUDO_PID}" 2>/dev/null || true
+  fi
+  if [[ ${code} -ne 0 ]]; then
+    error "Script exited with code ${code}"
+  fi
+}
+trap 'cleanup_on_exit' EXIT INT TERM

@@ -1,0 +1,17 @@
+diff --git a/src/main.cpp b/src/main.cpp
+index cd71cba..4a03003 100644
+--- a/src/main.cpp
++++ b/src/main.cpp
+@@ -257,6 +257,12 @@ void onKeyPress(void* thisptr, SCallbackInfo& info, std::any args) {
+     const auto e = std::any_cast<IKeyboard::SKeyEvent>(std::any_cast<std::unordered_map<std::string, std::any>>(args)["event"]);
+     //const auto k = std::any_cast<SKeyboard*>(std::any_cast<std::unordered_map<std::string, std::any>>(args)["keyboard"]);
+ 
++    // Only react to key presses. The keyPress hook runs before keybind
++    // dispatch, so binding overview:toggle to ESC would otherwise open the
++    // overview on keydown and instantly close it again on the key release.
++    if (e.state != WL_KEYBOARD_KEY_STATE_PRESSED)
++        return;
++
+     if (e.keycode == KEY_ESC) {
+         // close all panels
+         for (auto& widget : g_overviewWidgets) {

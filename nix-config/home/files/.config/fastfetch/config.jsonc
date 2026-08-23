@@ -1,0 +1,92 @@
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "source": "nixos",
+    "color": {
+      "1": "#504945",
+      "2": "#665c54",
+      "3": "#3c3836",
+      "4": "#504945",
+      "5": "#665c54",
+      "6": "#3c3836"
+    },
+    "padding": {
+      "right": 2
+    }
+  },
+  "display": {
+    "separator": "  ",
+    "color": {
+      "title": "#3c3836"
+    }
+  },
+  "modules": [
+    "title",
+     "break",
+    {
+      "type": "os",
+      "key": "os     ",
+      "keyColor": "#665c54" // = color1
+    },
+    {
+      "type": "host",
+      "format": "{1}",
+      "key": "host   ",
+      "keyColor": "#665c54"
+    },
+    {
+      "type": "packages",
+      "key": "pack   ",
+      "keyColor": "#665c54"
+    },
+    {
+      "type": "cpu",
+      "key": "cpu    ",
+      "keyColor": "#665c54"
+    },
+    {
+      "type": "memory",
+      "format": "{used} / {total} ({##665c54}{percentage}{#})",
+      "percent": {
+        "type": [
+          "num"
+        ]
+      },
+      "key": "ram    ",
+      "keyColor": "#665c54"
+    },
+    {
+      "type": "disk",
+      "format": "{size-used} / {size-total} ({##665c54}{size-percentage}{#})",
+      "percent": {
+        "type": [
+          "num"
+        ]
+      },
+      "key": "space  ",
+      "keyColor": "#665c54"
+    },
+    {
+      "type": "wm",
+      "key": "wm     ",
+      "keyColor": "#665c54"
+    },
+    {
+      "type": "command",
+      "key": "res    ",
+      "keyColor": "#665c54",
+      "text": "wlr-randr 2>/dev/null | grep -oP '\\d+x\\d+ px.*current' | grep -oP '\\d+x\\d+' | head -1"
+    },
+    {
+      "type": "battery",
+      "format": "{##665c54}{capacity}{#} ({time-formatted})",
+      "percent": {
+        "type": [
+          "num"
+        ]
+      },
+      "key": "battery",
+      "keyColor": "#665c54"
+    }
+  ]
+}

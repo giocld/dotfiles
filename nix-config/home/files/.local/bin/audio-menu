@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+mode="${1:-input}"
+
+case "$mode" in
+  input)  section="Sources" ;;
+  output) section="Sinks" ;;
+  *) echo "usage: audio-menu [input|output]" >&2; exit 1 ;;
+esac
+
+mapfile -t items < <(
+  wpctl status | awk -v sec="$section" '
+    index($0, "├─ " sec ":") { capture = 1; next }
+    capture && /^ *[├└]/ { exit }
+    capture && $0 ~ /│/ && $0 ~ /[0-9]+\./ {
+      def = 0
+      if ($0 ~ /\*/) def = 1
+      id = ""; name = ""
+      for (i = 1; i <= NF; i++) {
+        if ($i ~ /^[0-9]+\.$/) {
+          id = substr($i, 1, length($i) - 1)
+          for (j = i + 1; j <= NF; j++) {
+            if ($j ~ /^\[vol:/) break
+            name = name (name == "" ? "" : " ") $j
+          }
+          break
+        }
+      }
+      if (id != "") printf "%s\t%s%s\n", id, (def ? "[*] " : "    "), name
+    }
+  '
+)
+
+[ ${#items[@]} -eq 0 ] && exit 0
+
+ids=()
+labels=()
+for item in "${items[@]}"; do
+  ids+=("${item%%$'\t'*}")
+  labels+=("${item#*$'\t'}")
+done
+
+chosen=$(printf '%s\n' "${labels[@]}" | fuzzel --dmenu --prompt "$mode: " --lines "${#labels[@]}" || true)
+[ -z "$chosen" ] && exit 0
+
+idx=0
+for i in "${!labels[@]}"; do
+  if [ "${labels[$i]}" = "$chosen" ]; then
+    idx=$i
+    break
+  fi
+done
+
+wpctl set-default "${ids[$idx]}"

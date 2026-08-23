@@ -1,0 +1,93 @@
+{
+  "$schema": "https://zed.dev/schema/settings/v0.2.0.json",
+  "theme": "Vague",
+  "window_background_opacity": 0.95,
+  "buffer_font_family": "Monocraft",
+  "buffer_font_size": 12,
+  "ui_font_family": "Monocraft",
+  "ui_font_size": 13,
+  "vim_mode": true,
+  "autosave": "on_focus_change",
+  "colorize_brackets": false,
+  "code_lens": "on",
+  "format_on_save": "on",
+  "minimap": {
+    "enabled": false
+  },
+  "toolbar" : {
+    "quick_actions": true
+  },
+
+  "scrollbar": {
+    "show": "never"
+  },
+  "tab_bar": {
+    "show": false
+  },
+  "tabs": {
+    "show": false
+  },
+  "gutter": {
+    "line_numbers": true,
+    "code_actions": true,
+    "folds": false
+  },
+  "project_panel": {
+    "button": false,
+    "file_icons": true
+  },
+  "git": {
+    "inline_blame": {
+      "enabled": true
+    }
+  },
+  "show_welcome_page": false,
+  "indent_guides": {
+    "enabled": false
+  },
+  "cursor_shape": "block",
+  "show_whitespaces": "none",
+  "cursor_blink": true,
+  "show_completions_on_input": true,
+  "semantic_tokens": "combined",
+  "extend_comment_on_newline": false,
+  "close_on_file_delete": false,
+  "restore_on_startup": "last_session",
+  "languages": {
+    "Python": {
+      "language_servers": ["pyright", "ruff", "!copilot"]
+    },
+    "Lua": {
+      "language_servers": ["lua-language-server", "!copilot"]
+    },
+    "C": {
+      "language_servers": ["clangd", "!copilot"]
+    },
+    "C++": {
+      "language_servers": ["clangd", "!copilot"]
+    },
+    "Rust": {
+      "language_servers": ["rust-analyzer", "!copilot"]
+    },
+    "Go": {
+      "language_servers": ["gopls", "!copilot"]
+    },
+    "Nix": {
+      "language_servers": ["nixd", "!copilot"],
+      "formatter": {
+        "language_server": {
+          "name": "nixd"
+        }
+      }
+    },
+    "Shell Script": {
+      "language_servers": ["bash-language-server", "!copilot"]
+    },
+    "YAML": {
+      "language_servers": ["yaml-language-server", "!copilot"]
+    },
+    "VimL": {
+      "language_servers": ["vim-language-server", "!copilot"]
+    }
+  }
+}
